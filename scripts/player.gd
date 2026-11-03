@@ -6,7 +6,7 @@ extends CharacterBody3D
 
 var move_input: Vector2 = Vector2.ZERO
 var camera_yaw: float = 0.0
-var camera_pitch: float = -0.18
+var camera_pitch: float = 0.35
 var camera_pivot: Node3D
 var camera: Camera3D
 var body_mesh: MeshInstance3D
@@ -92,7 +92,7 @@ func _build_camera() -> void:
 	add_child(camera_pivot)
 	camera = Camera3D.new()
 	camera.position = Vector3(0, 2.4, 6.5)
-	camera.rotation = Vector3(-0.18, 0.0, 0.0)
+	camera.rotation = Vector3.ZERO
 	camera.fov = 72.0
 	camera_pivot.add_child(camera)
 	camera.current = true
