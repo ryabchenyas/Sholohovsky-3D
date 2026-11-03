@@ -29,7 +29,6 @@ jobs:
           echo "ANDROID_HOME=$ANDROID_HOME"
           java -version
           test -x "$ANDROID_HOME/platform-tools/adb"
-          test -x "$ANDROID_HOME/build-tools/33.0.2/apksigner"
           keytool -genkeypair -v -keystore "$GODOT_ANDROID_KEYSTORE_DEBUG_PATH" \
             -storepass "$GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD" \
             -keypass "$GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD" \
@@ -56,6 +55,13 @@ jobs:
           set -euxo pipefail
           apt-get update
           apt-get install -y curl unzip
+          SDKMANAGER="$(find "$ANDROID_HOME" -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER"
+          yes | "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --licenses
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" "platform-tools" "platforms;android-34" "build-tools;34.0.0" "cmdline-tools;latest"
+          test -x "$ANDROID_HOME/platform-tools/adb"
+          test -x "$ANDROID_HOME/build-tools/34.0.0/apksigner"
+          test -d "$ANDROID_HOME/platforms/android-34"
           VERSION_DIR="$HOME/.local/share/godot/export_templates/4.4.1.stable"
           mkdir -p "$VERSION_DIR" /tmp/godot-templates
           curl -L --fail --retry 3 -o /tmp/godot-export-templates.tpz https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_export_templates.tpz
