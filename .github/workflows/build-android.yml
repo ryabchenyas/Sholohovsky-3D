@@ -48,10 +48,20 @@ jobs:
           SDKMANAGER_STATUS="${PIPESTATUS[1]}"
           set -e
           test "$SDKMANAGER_STATUS" -eq 0
-          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" "platform-tools" "platforms;android-34" "build-tools;34.0.0" "cmdline-tools;latest"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" \
+            "platform-tools" \
+            "platforms;android-34" \
+            "build-tools;34.0.0" \
+            "cmdline-tools;latest" \
+            "cmake;3.10.2.4988404" \
+            "ndk;23.2.8568313"
           test -x "$ANDROID_HOME/platform-tools/adb"
           test -x "$ANDROID_HOME/build-tools/34.0.0/apksigner"
           test -d "$ANDROID_HOME/platforms/android-34"
+          test -d "$ANDROID_HOME/cmake/3.10.2.4988404"
+          test -d "$ANDROID_HOME/ndk/23.2.8568313"
+          echo "Android SDK, CMake and NDK are installed:"
+          ls -d "$ANDROID_HOME/platforms/android-34" "$ANDROID_HOME/build-tools/34.0.0" "$ANDROID_HOME/cmake/3.10.2.4988404" "$ANDROID_HOME/ndk/23.2.8568313"
           VERSION_DIR="$HOME/.local/share/godot/export_templates/4.4.1.stable"
           mkdir -p "$VERSION_DIR" /tmp/godot-templates
           curl -L --fail --retry 3 -o /tmp/godot-export-templates.tpz https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_export_templates.tpz
