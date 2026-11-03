@@ -166,7 +166,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			if player:
 				player.move_input = Vector2(joystick_vector.x, -joystick_vector.y)
 		elif event.index == look_touch and player:
-			var delta_pos := event.position - last_look_position
+			var delta_pos: Vector2 = event.position - last_look_position
 			player.rotate_camera(delta_pos.x, delta_pos.y)
 			last_look_position = event.position
 
