@@ -1,0 +1,37 @@
+name: Validate Godot project
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Godot 4.4.1
+        run: |
+          wget -q https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_linux.x86_64.zip -O godot.zip
+          unzip -q godot.zip -d godot-bin
+          chmod +x godot-bin/Godot_v4.4.1-stable_linux.x86_64
+          echo "$PWD/godot-bin" >> "$GITHUB_PATH"
+
+      - name: Import and validate project
+        run: |
+          godot-bin/Godot_v4.4.1-stable_linux.x86_64 --headless --editor --path . --quit
+          godot-bin/Godot_v4.4.1-stable_linux.x86_64 --headless --path . --quit-after 3
+
+      - name: Package Godot source
+        run: |
+          zip -r Sholohovsky-3D-project.zip project.godot scenes scripts README.md
+
+      - name: Upload project archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sholohovsky-3D-project
+          path: Sholohovsky-3D-project.zip
+          retention-days: 14
