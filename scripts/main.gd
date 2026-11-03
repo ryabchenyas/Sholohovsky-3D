@@ -172,4 +172,4 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(_delta: float) -> void:
 	if player:
-		district_label.text = "ШОЛОХОВСКИЙ  •  ЦЕНТР" if player.global_position.z < 0 else "ШОЛОХОВСКИЙ  •  ДИЕТКА"
+		district_label.text = "ШОЛОХОВСКИЙ  •  ЦЕНТР" if player.global_position.x < 0 else "ШОЛОХОВСКИЙ  •  ДИЕТКА"
