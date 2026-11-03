@@ -57,7 +57,11 @@ jobs:
           apt-get install -y curl unzip
           SDKMANAGER="$(find "$ANDROID_HOME" -type f -name sdkmanager -print -quit)"
           test -n "$SDKMANAGER"
+          set +e
           yes | "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --licenses
+          SDKMANAGER_STATUS="${PIPESTATUS[1]}"
+          set -e
+          test "$SDKMANAGER_STATUS" -eq 0
           "$SDKMANAGER" --sdk_root="$ANDROID_HOME" "platform-tools" "platforms;android-34" "build-tools;34.0.0" "cmdline-tools;latest"
           test -x "$ANDROID_HOME/platform-tools/adb"
           test -x "$ANDROID_HOME/build-tools/34.0.0/apksigner"
