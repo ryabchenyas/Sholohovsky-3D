@@ -84,7 +84,8 @@ jobs:
         run: |
           set -euxo pipefail
           echo "HOME=$HOME"
-          find "$HOME" -maxdepth 5 -type f -name 'editor_settings-4.4.tres' -print -exec cat {} \\\;
+          cat "$HOME/.config/godot/editor_settings-4.4.tres"
+          mkdir -p build
           godot --headless --verbose --path . --export-debug "Android" build/Sholohovsky-3D-debug.apk
           test -s build/Sholohovsky-3D-debug.apk
 
