@@ -21,9 +21,9 @@ var traffic_materials: Array[StandardMaterial3D] = []
 func _ready() -> void:
 	_build_world()
 	_build_player()
+	_build_hud()
 	_build_collectibles()
 	_build_traffic()
-	_build_hud()
 
 func _build_world() -> void:
 	var world_environment := WorldEnvironment.new()
@@ -245,12 +245,15 @@ func _build_traffic() -> void:
 		[Vector3(-3.0, 0.0, 45.0), Color("#e5b84f"), 5.5]
 	]
 	for spec in car_specs:
-		var car := _make_car(spec[1])
-		car.position = spec[0]
-		car.rotation.y = 0.0 if float(spec[2]) < 0.0 else PI
+		var car_position: Vector3 = spec[0]
+		var car_color: Color = spec[1]
+		var car_speed: float = float(spec[2])
+		var car := _make_car(car_color)
+		car.position = car_position
+		car.rotation.y = 0.0 if car_speed < 0.0 else PI
 		add_child(car)
 		traffic.append(car)
-		traffic_speeds.append(float(spec[2]))
+		traffic_speeds.append(car_speed)
 
 func _make_car(color: Color) -> Node3D:
 	var car := Node3D.new()
