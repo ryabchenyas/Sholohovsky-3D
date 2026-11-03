@@ -201,7 +201,7 @@ func _build_player() -> void:
 func _build_collectibles() -> void:
 	for i in range(18):
 		var coin := Area3D.new()
-		coin.position = Vector3(-48.0 + float((i * 17) % 96), 0.9, -52.0 + float((i * 23) % 104))
+		coin.position = Vector3(0.0, 0.9, -55.0 + float(i) * 6.4)
 		coin.set_meta("coin_index", i)
 		var mesh := MeshInstance3D.new()
 		var cylinder := CylinderMesh.new()
@@ -247,7 +247,7 @@ func _build_traffic() -> void:
 	for spec in car_specs:
 		var car := _make_car(spec[1])
 		car.position = spec[0]
-		car.rotation.y = PI if float(spec[2]) < 0.0 else 0.0
+		car.rotation.y = 0.0 if float(spec[2]) < 0.0 else PI
 		add_child(car)
 		traffic.append(car)
 		traffic_speeds.append(float(spec[2]))
@@ -363,7 +363,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.index == joystick_touch:
 			joystick_vector = ((event.position - joystick_origin) / 70.0).limit_length(1.0)
 			if player:
-				player.move_input = Vector2(joystick_vector.x, -joystick_vector.y)
+				player.move_input = Vector2(joystick_vector.x, joystick_vector.y)
 		elif event.index == look_touch and player:
 			var delta_pos: Vector2 = event.position - last_look_position
 			player.rotate_camera(delta_pos.x, delta_pos.y)
