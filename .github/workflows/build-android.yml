@@ -96,8 +96,18 @@ jobs:
           cat "$HOME/.config/godot/editor_settings-4.4.tres"
           test -s "$GODOT_ANDROID_KEYSTORE_DEBUG_PATH"
           mkdir -p build
-          godot --headless --verbose --path . --export-debug "Android" build/Sholohovsky-3D-debug.apk
+          godot --headless --verbose --path . --export-debug "Android" build/Sholohovsky-3D-unsigned.apk
+          test -s build/Sholohovsky-3D-unsigned.apk
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" sign \
+            --ks "$GODOT_ANDROID_KEYSTORE_DEBUG_PATH" \
+            --ks-key-alias "$GODOT_ANDROID_KEYSTORE_DEBUG_USER" \
+            --ks-pass "pass:$GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD" \
+            --key-pass "pass:$GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD" \
+            --out build/Sholohovsky-3D-debug.apk \
+            build/Sholohovsky-3D-unsigned.apk
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --verbose build/Sholohovsky-3D-debug.apk
           test -s build/Sholohovsky-3D-debug.apk
+          ls -lh build/Sholohovsky-3D-debug.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
