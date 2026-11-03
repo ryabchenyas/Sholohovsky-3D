@@ -92,7 +92,7 @@ func _add_box(pos: Vector3, size: Vector3, color: Color, collision: bool) -> voi
 func _build_player() -> void:
 	player = CharacterBody3D.new()
 	player.set_script(PLAYER_SCRIPT)
-	player.position = Vector3(0, 0.2, 0)
+	player.position = Vector3(0, 0.2, -12)
 	add_child(player)
 
 func _build_hud() -> void:
@@ -143,7 +143,7 @@ func _jump() -> void:
 	if player and player.is_on_floor():
 		player.velocity.y = player.jump_velocity
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		if event.pressed:
 			if event.position.x < get_viewport().get_visible_rect().size.x * 0.48 and joystick_touch == -1:
@@ -172,4 +172,4 @@ func _input(event: InputEvent) -> void:
 
 func _process(_delta: float) -> void:
 	if player:
-		district_label.text = "ШОЛОХОВСКИЙ  •  ЦЕНТР" if player.global_position.z < -10 else "ШОЛОХОВСКИЙ  •  ДИЕТКА"
+		district_label.text = "ШОЛОХОВСКИЙ  •  ЦЕНТР" if player.global_position.z < 0 else "ШОЛОХОВСКИЙ  •  ДИЕТКА"
