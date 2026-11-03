@@ -79,10 +79,13 @@ jobs:
       - name: Validate project
         run: godot --headless --editor --path . --quit
 
-      - name: Export Android debug APK
+      - name: Diagnose Android export preset
+        shell: bash
         run: |
-          mkdir -p build
-          godot --headless --path . --export-debug "Android" build/Sholohovsky-3D-debug.apk
+          set -euxo pipefail
+          echo "HOME=$HOME"
+          find "$HOME" -maxdepth 5 -type f -name 'editor_settings-4.4.tres' -print -exec cat {} \\\;
+          godot --headless --verbose --path . --export-debug "Android" build/Sholohovsky-3D-debug.apk
           test -s build/Sholohovsky-3D-debug.apk
 
       - name: Upload APK
