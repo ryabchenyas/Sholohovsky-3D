@@ -54,11 +54,11 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
+          apt-get update
+          apt-get install -y curl unzip
           VERSION_DIR="$HOME/.local/share/godot/export_templates/4.4.1.stable"
           mkdir -p "$VERSION_DIR" /tmp/godot-templates
-          curl -L --fail --retry 3 \\
-            -o /tmp/godot-export-templates.tpz \\
-            https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_export_templates.tpz
+          curl -L --fail --retry 3 -o /tmp/godot-export-templates.tpz https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_export_templates.tpz
           unzip -q /tmp/godot-export-templates.tpz -d /tmp/godot-templates
           test -d /tmp/godot-templates/templates
           cp -a /tmp/godot-templates/templates/. "$VERSION_DIR/"
