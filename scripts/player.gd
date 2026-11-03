@@ -92,10 +92,9 @@ func _build_camera() -> void:
 	add_child(camera_pivot)
 	camera = Camera3D.new()
 	camera.position = Vector3(0, 2.4, 6.5)
+	camera.rotation = Vector3(-0.18, 0.0, 0.0)
 	camera.fov = 72.0
 	camera_pivot.add_child(camera)
-	# Aim only after the camera is inside the scene tree.
-	camera.look_at(to_global(Vector3(0, 1.2, 0)), Vector3.UP)
 	camera.current = true
 	_update_camera()
 
